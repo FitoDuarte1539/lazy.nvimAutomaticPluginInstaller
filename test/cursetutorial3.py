@@ -13,22 +13,21 @@ def gui(stdscr):
     BLUE_AND_YELLOW = curses.color_pair(1)
     GREEN_AND_BLACK = curses.color_pair(2)
 
-    counter_win = curses.newwin(1, 20, 10, 10)
-    stdscr.addstr("hello world!")
-    stdscr.refresh()
+    x, y = 0, 0
+    while True:
+        key = stdscr.getkey()
+        if key == "KEY_LEFT":
+            x -= 1
+        elif key == "KEY_RIGHT":
+            x += 1
+        elif key == "KEY_DOWN":
+            y += 1
+        elif key == "KEY_UP":
+            y -= 1
 
-    for i in range(100):
-        counter_win.clear()
-        color = BLUE_AND_YELLOW
-
-        if i % 2 == 0:
-            color = GREEN_AND_BLACK
-
-        counter_win.addstr(f"Count: {i}", color)
-        counter_win.refresh()
-        time.sleep(0.1)
-
-    stdscr.getch()
+        stdscr.clear()
+        stdscr.addstr(y, x, "0")
+        stdscr.refresh()
 
 
 wrapper(gui)

@@ -13,21 +13,18 @@ def gui(stdscr):
     BLUE_AND_YELLOW = curses.color_pair(1)
     GREEN_AND_BLACK = curses.color_pair(2)
 
-    counter_win = curses.newwin(1, 20, 10, 10)
-    stdscr.addstr("hello world!")
+    pad = curses.newpad(100, 100)
     stdscr.refresh()
 
     for i in range(100):
-        counter_win.clear()
-        color = BLUE_AND_YELLOW
-
-        if i % 2 == 0:
-            color = GREEN_AND_BLACK
-
-        counter_win.addstr(f"Count: {i}", color)
-        counter_win.refresh()
-        time.sleep(0.1)
-
+        for j in range(26):
+            char = chr(67 + j)
+            pad.addstr(char, GREEN_AND_BLACK)
+    for i in range(50):
+        stdscr.clear()
+        stdscr.refresh()
+        pad.refresh(0, i, 5, i, 10, 25 + i)
+        time.sleep(0.2)
     stdscr.getch()
 
 
