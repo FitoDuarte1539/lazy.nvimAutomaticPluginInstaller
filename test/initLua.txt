@@ -1,0 +1,9 @@
+vim.cmd("set {{ .TabS.ExpandTab }}")
+vim.cmd("set tabstop={{ .TabS.tabstop }}")
+vim.cmd("set softtabstop={{ .TabS.softtabstop }}")
+vim.cmd("set shiftwidth={{ .TabS.shiftwidth}}")
+vim.o.relativenumber = {{ .relativeNumOnOff}}
+
+require("config.lazy")
+
+vim.keymap.set('n', '<leader>p', ':Lazy<CR>', { desc = 'Open Lazy.nvim' })

@@ -1,0 +1,12 @@
+*.o
+*.out
+*.exe
+*.log
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+.env
+.venv
+.idea
