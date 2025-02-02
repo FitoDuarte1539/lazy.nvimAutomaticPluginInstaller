@@ -6,6 +6,8 @@ User inputs options
 
 Program outputs config (lua) files.
 
+TUI Powered By Curses
+
 
 Design Notes:
 
