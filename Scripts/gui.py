@@ -105,6 +105,9 @@ class Gui():
         elif key in [curses.KEY_DOWN, ord('s'), ord('S')] and (current_option < len(options) - 1):
             current_option += 1
             return current_option
+        # FIXME MAKE THIS WHOLE THING ||| A FOR LOOP TO ACCOUNT FOR ALL POSSIBLE OPTIONS
+        #                             vvv
+
         elif key in [curses.KEY_ENTER, 10, 13]:
             if options[current_option] == options[len(options)-1]:
                 return False
