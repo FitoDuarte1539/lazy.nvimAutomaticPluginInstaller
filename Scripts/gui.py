@@ -4,7 +4,16 @@ import time
 
 
 class Gui():
-    def __init__(self, stdscr):
+    """
+    Gui Class to provide a framework for each menu the user goes through.
+    Initialized by taking in stdscr.
+    Call display_menu with a list of options to display the top menu in the gui.
+    The last option in the list must be your exit sequence! Ex. Quit/Return
+
+    """
+
+    def __init__(self, stdscr, texts=[]):
+        self.texts = []
         curses.start_color()
         curses.use_default_colors()
         self.stdscr = stdscr
@@ -13,13 +22,13 @@ class Gui():
         curses.init_pair(3, curses.COLOR_GREEN, -1)
         curses.init_pair(4, curses.COLOR_BLUE, -1)
         self.h, self.w = stdscr.getmaxyx()
-        self.logo = """     __                _               ___             __ _                       _             
-  /\ \ \___  _____   _(_)_ __ ___     / __\___  _ __  / _(_) __ _ _   _ _ __ __ _| |_ ___  _ __ 
- /  \/ / _ \/ _ \ \ / / | '_ ` _ \   / /  / _ \| '_ \| |_| |/ _` | | | | '__/ _` | __/ _ \| '__|
-/ /\  /  __/ (_) \ V /| | | | | | | / /__| (_) | | | |  _| | (_| | |_| | | | (_| | || (_) | |   
-\_\ \/ \___|\___/ \_/ |_|_| |_| |_| \____/\___/|_| |_|_| |_|\__, |\__,_|_|  \__,_|\__\___/|_|   """
+        self.logo = r"""   _  __       _   ___         _____          ____                    __
+  / |/ /__ ___| | / (_)_ _    / ___/__  ___  / _(_)__ ___ _________ _/ /____  ____
+ /    / -_) _ \ |/ / /  ' \  / /__/ _ \/ _ \/ _/ / _ `/ // / __/ _ `/ __/ _ \/ __/
+/_/|_/\__/\___/___/_/_/_/_/  \___/\___/_//_/_//_/\_, /\_,_/_/  \_,_/\__/\___/_/
+                                                /___/                            """
 
-    def main_menu(self, options=["No_Options"]):
+    def display_menu(self, options=["No_Options"]):
 
         self.stdscr.clear()
 
@@ -29,7 +38,6 @@ class Gui():
         win = curses.newwin(winy, winx, ypad, xpad)
 
         win.keypad(True)
-
         win.attron(curses.color_pair(1))
         win.border()
         win.attroff(curses.color_pair(1))
@@ -75,16 +83,11 @@ class Gui():
 
             key = win.getch()
 
-            if key in [curses.KEY_UP, ord('w'), ord('W')] and current_option > 0:
-                current_option -= 1
-            elif key in [curses.KEY_DOWN, ord('s'), ord('S')] and (current_option < len(options) - 1):
-                current_option += 1
-            elif key in [curses.KEY_ENTER, 10, 13]:
-                if options[current_option] == 'Quit':
-                    break
-                else:
-                    pass
-                # FIXME Add Implementation for moving To Different Menu's Here!
+            current_option = self.handle_input(key, current_option, options)
+
+            if current_option is False:
+                break
+
         win.clear()
         win.attron(curses.color_pair(1))
         win.border()
@@ -95,6 +98,40 @@ class Gui():
         _, winx = win.getmaxyx()
         return string.center(winx-2)
 
+    def handle_input(self, key, current_option, options):
+        if key in [curses.KEY_UP, ord('w'), ord('W')] and current_option > 0:
+            current_option -= 1
+            return current_option
+        elif key in [curses.KEY_DOWN, ord('s'), ord('S')] and (current_option < len(options) - 1):
+            current_option += 1
+            return current_option
+        elif key in [curses.KEY_ENTER, 10, 13]:
+            if options[current_option] == options[len(options)-1]:
+                return False
+            elif options[current_option] == options[len(options)-2]:
+                submenu = TextSubMenu(self.stdscr, "testtext", options[len(options)-1], r"""   __ __    __   
+  / // /__ / /__ 
+ / _  / -_) / _ \
+/_//_/\__/_/ .__/
+          /_/   """)
+                submenu.open()
+            else:
+                return current_option
+        else:
+            return current_option
+
+
+class TextSubMenu(Gui):
+    def __init__(self, stdscr, text, name, logo):
+        super().__init__(stdscr)
+        self.name = name
+        self.text = text
+        self.options = ["test1", "test2"]
+        self.logo = logo
+
+    def open(self):
+        self.display_menu(self.options)
+
 
 def main(stdscr):
 
@@ -103,7 +140,7 @@ def main(stdscr):
     options = ["Install Plugins", "Configure Plugins",
                "Settings", "Help", "Quit"]
 
-    gui.main_menu(options)
+    gui.display_menu(options)
 
 
 wrapper(main)
