@@ -28,6 +28,19 @@ class Gui():
 /_/|_/\__/\___/___/_/_/_/_/  \___/\___/_//_/_//_/\_, /\_,_/_/  \_,_/\__/\___/_/
                                                 /___/                            """
 
+    def display_logo(self, win, xpad):
+
+        logo_lines = self.logo.splitlines()
+
+        winx = int(self.w - 2 * xpad)
+        line_padding = " " * ((winx - 2 - max(len(item)
+                              for item in logo_lines)) // 2)
+
+        win.attron(curses.color_pair(2))
+        for i, line in enumerate(logo_lines):
+            win.addstr(i + 2, 1, line_padding + line + line_padding)
+        win.attroff(curses.color_pair(2))
+
     def display_menu(self, options=["No_Options"]):
 
         self.stdscr.clear()
@@ -42,21 +55,13 @@ class Gui():
         win.border()
         win.attroff(curses.color_pair(1))
 
-        logo_lines = self.logo.splitlines()
+        self.display_logo(win, xpad)
 
-        line_padding = " " * ((winx - 2 - max(len(item)
-                              for item in logo_lines)) // 2)
-
-        win.attron(curses.color_pair(2))
-        for i, line in enumerate(logo_lines):
-            win.addstr(i + 2, 1, line_padding + line + line_padding)
-        win.attroff(curses.color_pair(2))
-
-        self.display_options(win, options)
+        self.display_content(win, options)
 
         win.refresh()
 
-    def display_options(self, win, options=["Test1", "Test2", "Test3"]):
+    def display_content(self, win, options=["Test1", "Test2", "Quit"]):
 
         current_option = 0
 
@@ -83,7 +88,8 @@ class Gui():
 
             key = win.getch()
 
-            current_option = self.handle_input(key, current_option, options)
+            current_option = self.handle_input(
+                key, current_option, options, win)
 
             if current_option is False:
                 break
@@ -98,7 +104,7 @@ class Gui():
         _, winx = win.getmaxyx()
         return string.center(winx-2)
 
-    def handle_input(self, key, current_option, options):
+    def handle_input(self, key, current_option, options, win):
         if key in [curses.KEY_UP, ord('w'), ord('W')] and current_option > 0:
             current_option -= 1
             return current_option
@@ -112,12 +118,13 @@ class Gui():
             if options[current_option] == options[len(options)-1]:
                 return False
             elif options[current_option] == options[len(options)-2]:
-                submenu = TextSubMenu(self.stdscr, "testtext", options[len(options)-1], r"""   __ __    __   
+                submenu = TextSubMenu(self.stdscr, "testtext", options[len(options)-1], win,
+                                      r"""   __ __    __
   / // /__ / /__ 
  / _  / -_) / _ \
 /_//_/\__/_/ .__/
           /_/   """)
-                submenu.open()
+                submenu.display_menu()
             else:
                 return current_option
         else:
@@ -125,15 +132,32 @@ class Gui():
 
 
 class TextSubMenu(Gui):
-    def __init__(self, stdscr, text, name, logo):
+    def __init__(self, stdscr, text, name, win,  logo,):
         super().__init__(stdscr)
         self.name = name
         self.text = text
-        self.options = ["test1", "test2"]
+        self.options = ["test1", "quit"]
         self.logo = logo
+        self.win = win
 
-    def open(self):
-        self.display_menu(self.options)
+    def display_menu(self):
+
+        self.win.clear()
+        self.win.attron(curses.color_pair(1))
+        self.win.border()
+        self.win.attroff(curses.color_pair(1))
+
+        self.display_text(self.win, self.text)
+
+        self.display_content(self.win, self.options)
+
+    def display_text(self, win, text):
+        win.attron(curses.color_pair(2))
+        lines = text.split("\n")
+        for i, line in enumerate(lines):
+            win.addstr(3 + i, 2, line)
+        win.attroff(curses.color_pair(2))
+        win.refresh()
 
 
 def main(stdscr):
