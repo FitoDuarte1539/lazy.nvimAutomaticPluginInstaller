@@ -130,7 +130,7 @@ class Gui():
         else:
             return current_option
 
-
+# FIXME Make this class create its own window, so that it doesn't override the previous one
 class TextSubMenu(Gui):
     def __init__(self, stdscr, text, name, win,  logo,):
         super().__init__(stdscr)
