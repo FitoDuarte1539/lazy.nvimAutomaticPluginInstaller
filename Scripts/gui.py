@@ -131,6 +131,7 @@ class Gui():
             return current_option
 
 # FIXME Make this class create its own window, so that it doesn't override the previous one
+#       OR: I can store the previous window state before moving to the next one.
 class TextSubMenu(Gui):
     def __init__(self, stdscr, text, name, win,  logo,):
         super().__init__(stdscr)
