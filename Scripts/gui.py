@@ -161,7 +161,7 @@ class TextSubMenu(Gui):
         win.refresh()
 
 
-def main(stdscr):
+def test(stdscr):
 
     gui = Gui(stdscr)
 
@@ -171,4 +171,4 @@ def main(stdscr):
     gui.display_menu(options)
 
 
-wrapper(main)
+wrapper(test)
