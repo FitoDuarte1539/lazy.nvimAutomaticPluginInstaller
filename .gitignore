@@ -2,6 +2,11 @@
 *.out
 *.exe
 *.log
+*.pyc
+__pychache__/
+
+# this is the output of program
+init.lua
 # macOS
 .DS_Store
 

@@ -171,4 +171,8 @@ def test(stdscr):
     gui.display_menu(options)
 
 
-wrapper(test)
+def main():
+    wrapper(test)
+
+if __name__ == "__main__":
+    main()
