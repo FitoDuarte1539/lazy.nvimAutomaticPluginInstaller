@@ -26,7 +26,8 @@ git (for cloning plugin repositories)
 Step 1: Set up a Python virtual environment
 It's highly recommended to use a virtual environment to manage dependencies for this project. To set up a virtual environment, run the following commands:
 
-```# Create a virtual environment (optional: replace 'venv' with your preferred name)
+```
+# Create a virtual environment (optional: replace 'venv' with your preferred name)
 python -m venv venv
 
 # Activate the virtual environment
@@ -36,18 +37,20 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 Step 2: Clone the repository
-```git clone https://github.com/yourusername/neovim-auto-installer.git
-cd neovim-auto-installer
+```
+git clone https://github.com/FitoDuarte1539/lazy.nvimAutomaticPluginInstaller.git
+cd neovimAutomaticPluginInstaller
 ```
 Step 3: Install Python dependencies
  FIXME: create dependancies.txt
  
 Step 4: Run the program
 
-```python gui.py
+```
 # This will launch the TUI where you can select plugins and configuration options. Note that the TUI is still a work-in-progress, so some functionality may not be complete.
 python main.py
 # This will make a simple config for vim settings based on templates
+python gui.py
 ```
 ### Current Status
 
