@@ -1,41 +1,55 @@
-# lazy.nvimAutomaticPluginInstaller
+# Neovim Auto Installer
 
-Terminal UI for seleting input for nvim options. 
+A Python-based tool to automate the setup and configuration of Neovim. Currently, the project features a work-in-progress terminal UI (TUI) for selecting plugins and configuration options.
 
-User inputs options
+### Current Features (WIP)
 
-Program outputs config (lua) files.
+Terminal UI: A simple CLI-based interface to interact with the installer. This allows you to select Neovim plugins and configuration options. The UI is still in early stages.
 
-TUI Powered By Curses
+### Planned Features
 
+- Automated Dependency Installation: The installer will handle dependencies for Neovim and plugins.
+- Plugin Management: Integration with lazy.nvim for managing plugins.
+- Configuration Generation: Using Jinja templates to generate Lua configuration files for Neovim based on user input.
+- YAML Configuration: User selections will be stored in YAML files for future customizations.
+- Containerized Setup: Option to run the installer in a Docker container for easy distribution.
 
-Design Notes:
+#### Requirements
 
-I want to be able to give this to my friends so they can set up neovim without having to basically learn lua and what each different thing in the lua files do
+Python 3.x
+Neovim
+pip (for Python dependencies)
+git (for cloning plugin repositories)
 
-Right now it's hard to tell what's going on
-Bc rhe code for a lot of the plug-ins is very messy
+### Installation (Python Virtual Environment Recommended)
 
-Basically just so that if u want u can go to the yaml files and input stuff directly (but still less complicated then looking at a jumble of code)
+Step 1: Set up a Python virtual environment
+It's highly recommended to use a virtual environment to manage dependencies for this project. To set up a virtual environment, run the following commands:
 
-And then another python script will take that yaml and combine it with the template and output the correct configuration files
+```# Create a virtual environment (optional: replace 'venv' with your preferred name)
+python -m venv venv
 
-What the python is going to do is get user input and then write it to a yaml
+# Activate the virtual environment
+# On Linux/macOS:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+```
+Step 2: Clone the repository
+```git clone https://github.com/yourusername/neovim-auto-installer.git
+cd neovim-auto-installer
+```
+Step 3: Install Python dependencies
+ FIXME: create dependancies.txt
+ 
+Step 4: Run the program
 
-But thats just to test the templates
+```python gui.py
+# This will launch the TUI where you can select plugins and configuration options. Note that the TUI is still a work-in-progress, so some functionality may not be complete.
+python main.py
+# This will make a simple config for vim settings based on templates
+```
+### Current Status
 
-And then it writes them directly to the jinja template
-
-I just made the data on the python script
-
-But rn there's no input
-
-So just click the button that says "set your tab width" and put 4, then ur tab width is 4
-
-Bc it's really confusing to try and change the settings urself
-
-And then it spits out the config files with those settings
-
-Rhat let's you select and input what options you want
-
-Basically the plan is to make a terminal ui
+The project is in the early stages, with the TUI being the main feature available so far.
+The planned features are yet to be fully implemented.
